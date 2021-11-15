@@ -6,7 +6,7 @@ var velocity = Vector3()
 var gravity = -9.8
 var speed = 0.2
 var max_speed = 4
-var mouse_sensitivity = 0.002
+var mouse_sensitivity = 0.015
 var jump = 2
 var jumping = false
 
@@ -17,12 +17,11 @@ func _ready():
 func _physics_process(delta):
 	velocity.y += gravity * delta
 	var desired_velocity = get_input() * speed
-
 	velocity.x += desired_velocity.x
 	velocity.z += desired_velocity.z
 	var current_speed = velocity.length()
 	velocity = velocity.normalized() * clamp(current_speed,0,max_speed)
-
+	$AnimationTree.set("parameters/Idle_Walk/blend_amount", current_speed/max_speed) 
 	velocity = move_and_slide(velocity, Vector3.UP, true)
 
 
